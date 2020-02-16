@@ -44,6 +44,8 @@ def sc_conv(image_x,image_y):
     model = Model(inp_, out)
     
     model.compile(loss='categorical_crossentropy', optimizer = Adam(lr = 1e-3), metrics=['accuracy'])
+    
+    model.summary()
 
     return model
 
@@ -57,7 +59,7 @@ def sc_conv_complex(image_x,image_y):
     x = MaxPooling2D(pool_size=(2, 2), strides=(2, 2), padding='same')(x)
     d = GlobalAveragePooling2D()(x)
     e = GlobalMaxPooling2D()(x)
-    y = Concatenate()[d, e]
+    y = Concatenate()([d, e])
     y = Dense(1024, activation = "relu")(y)
     y = Dropout(0.25)(y)
     out = Dense(num_of_classes, activation='softmax')(x)
@@ -66,4 +68,6 @@ def sc_conv_complex(image_x,image_y):
     
     model.compile(loss='categorical_crossentropy', optimizer = Adam(lr = 1e-3), metrics=['accuracy'])
 
+    model.summary()
+    
     return model
