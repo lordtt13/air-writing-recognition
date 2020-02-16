@@ -37,11 +37,33 @@ def sc_conv(image_x,image_y):
     x = SeparableConv2D(filters = 32, kernel_size = (3, 3), activation='relu', padding = 'same')(x)
     x = MaxPooling2D(pool_size=(5, 5), strides=(5, 5), padding='same')(x)
     x = Flatten()(x)
+    x = Dense(1024, activation = "relu")(x)
+    x = Dropout(0.25)(x)    
     out = Dense(num_of_classes, activation='softmax')(x)
     
     model = Model(inp_, out)
     
-    model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
+    model.compile(loss='categorical_crossentropy', optimizer = Adam(lr = 1e-3), metrics=['accuracy'])
 
     return model
 
+def sc_conv_complex(image_x,image_y):
+    num_of_classes = 37
+    inp_ = Input((image_x, image_y))
+    a = SeparableConv2D(filters = 64, kernel_size = (3, 3), activation='relu', padding = 'same')(inp_)
+    b = SeparableConv2D(filters = 128, kernel_size = (5, 5), activation='relu', padding = 'same')(inp_)
+    c = SeparableConv2D(filters = 32, kernel_size = (1, 1), activation='relu', padding = 'same')(inp_)
+    x = Concatenate()([a, b, c])
+    x = MaxPooling2D(pool_size=(2, 2), strides=(2, 2), padding='same')(x)
+    d = GlobalAveragePooling2D()(x)
+    e = GlobalMaxPooling2D()(x)
+    y = Concatenate()[d, e]
+    y = Dense(1024, activation = "relu")(y)
+    y = Dropout(0.25)(y)
+    out = Dense(num_of_classes, activation='softmax')(x)
+    
+    model = Model(inp_, out)
+    
+    model.compile(loss='categorical_crossentropy', optimizer = Adam(lr = 1e-3), metrics=['accuracy'])
+
+    return model
