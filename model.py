@@ -31,7 +31,7 @@ def vanilla_conv(image_x,image_y):
 
 def sc_conv(image_x,image_y):
     num_of_classes = 37
-    inp_ = Input((image_x, image_y))
+    inp_ = Input((image_x, image_y, 1)) # Greyscale Image
     x = SeparableConv2D(filters = 64, kernel_size = (3, 3), activation='relu', padding = 'same')(inp_)
     x = MaxPooling2D(pool_size=(2, 2), strides=(2, 2), padding='same')(x)
     x = SeparableConv2D(filters = 32, kernel_size = (3, 3), activation='relu', padding = 'same')(x)
@@ -49,7 +49,7 @@ def sc_conv(image_x,image_y):
 
 def sc_conv_complex(image_x,image_y):
     num_of_classes = 37
-    inp_ = Input((image_x, image_y))
+    inp_ = Input((image_x, image_y, 1)) # Greyscale Image
     a = SeparableConv2D(filters = 64, kernel_size = (3, 3), activation='relu', padding = 'same')(inp_)
     b = SeparableConv2D(filters = 128, kernel_size = (5, 5), activation='relu', padding = 'same')(inp_)
     c = SeparableConv2D(filters = 32, kernel_size = (1, 1), activation='relu', padding = 'same')(inp_)
