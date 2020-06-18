@@ -8,8 +8,10 @@ Created on Sun Feb 16 23:11:20 2020
 import cv2
 import pickle
 
-from tensorflow.keras.models import load_model
+import numpy as np
+
 from predict import *
+from tensorflow.keras.models import load_model
 
 
 letter_count = pickle.load(open( "dict.pickle", "rb" ))
